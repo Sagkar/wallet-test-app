@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: 'postgres-wallet'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5432'
+  app:
+    image: 'wallet-app'
+    container_name: 'wallet'
+    depends_on:
+      - postgres
+    ports:
+      - '8080'
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
